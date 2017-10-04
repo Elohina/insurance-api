@@ -12,6 +12,14 @@ var session = require("./routes/session");
 
 var app = express();
 
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://localhost/insurance-api';
+mongoose.connect(mongoDB, {
+  useMongoClient: true
+});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
