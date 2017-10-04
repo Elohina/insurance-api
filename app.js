@@ -10,11 +10,12 @@ var users = require("./routes/users");
 var policies = require("./routes/policies");
 var session = require("./routes/session");
 
+var config = require("./config");
+
 var app = express();
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/insurance-api';
-mongoose.connect(mongoDB, {
+mongoose.connect(config.database, {
   useMongoClient: true
 });
 var db = mongoose.connection;
