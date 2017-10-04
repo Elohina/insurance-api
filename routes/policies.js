@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
-var MongoClient = require("mongodb").MongoClient;
+var Policy = require("../models/policy");
+var User = require("../models/user");
 
 router.get("/:id/user", function(req, res, next) {
   if (res.locals.role !== "admin") {
@@ -9,23 +10,13 @@ router.get("/:id/user", function(req, res, next) {
 
   var id = req.params.id;
 
-  MongoClient.connect("mongodb://localhost/insurance-api", (err, db) => {
-    db
-      .collection("policies")
-      .find({ id: id })
-      .next(function(err, result) {
-        if (!result) {
-          res.status(404).send({ error: "Policy not found" });
-          return db.close();
-        }
-        db
-          .collection("users")
-          .find({ id: result.clientId })
-          .next(function(err, result) {
-            res.send(result);
-            db.close();
-          });
-      });
+  Policy.find({ id: id }, (err, result) => {
+    if (!result) {
+      res.status(404).send({ error: "Policy not found" });
+    }
+    User.find({ id: result.clientId }, (err, result) => {
+      res.send(result);
+    });
   });
 });
 

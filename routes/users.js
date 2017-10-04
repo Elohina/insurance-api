@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
-var MongoClient = require("mongodb").MongoClient;
+var User = require("../models/user");
+var Policy = require("../models/policy")
 
 /* GET user by id */
 router.get("/:id", function(req, res, next) {
@@ -10,15 +11,9 @@ router.get("/:id", function(req, res, next) {
 
   var id = req.params.id;
 
-  MongoClient.connect("mongodb://localhost/insurance-api", (err, db) => {
-    db
-      .collection("users")
-      .find({ id: id })
-      .next(function(err, result) {
-        db.close();
-        if (!result) res.status(404).send({ error: "User not found" });
-        res.send(result);
-      });
+  User.findOne({ id: id }, (err, result) => {
+    if (!result) res.status(404).send({ error: "User not found" });
+    res.send(result);
   });
 });
 
@@ -35,15 +30,9 @@ router.get("/", function(req, res, next) {
       .status(400)
       .send({ error: "Please provide a name in query string" });
 
-  MongoClient.connect("mongodb://localhost/insurance-api", (err, db) => {
-    db
-      .collection("users")
-      .find({ name: name })
-      .next(function(err, result) {
-        db.close();
-        if (!result) return res.status(404).send({ error: "User not found" });
-        res.send(result);
-      });
+  User.findOne({ name: name }, (err, result) => {
+    if (!result) return res.status(404).send({ error: "User not found" });
+    res.send(result);
   });
 });
 
@@ -55,23 +44,16 @@ router.get("/:name/policies", function(req, res, next) {
 
   var name = req.params.name;
 
-  MongoClient.connect("mongodb://localhost/insurance-api", (err, db) => {
-    db
-      .collection("users")
-      .find({ name: name })
-      .next(function(err, result) {
-        if (!result) {
-          res.status(404).send({ error: "User not found" });
-          return db.close();
-        }
-        db
-          .collection("policies")
-          .find({ clientId: result.id })
-          .toArray(function(err, result) {
-            res.send(result);
-            db.close();
-          });
-      });
+  User.findOne({ name: name }, (err, result) => {
+    if (!result) {
+      res.status(404).send({ error: "User not found" });
+    }
+    Policy.find({ clientId: result.id }, (err, result) => {
+      if (!result) {
+        res.status(404).send({ error: "User not found" });
+      }
+      res.send(result);
+    });
   });
 });
 
