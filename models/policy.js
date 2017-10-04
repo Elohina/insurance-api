@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var PolicySchema = Schema(
@@ -14,4 +14,4 @@ var PolicySchema = Schema(
 
 PolicySchema.index({id: 1});
 
-module.exports = mongoose.model('Policy', PolicySchema);
+module.exports = mongoose.model("Policy", PolicySchema);

@@ -1,4 +1,4 @@
 module.exports = {
-  'secret': 'insurance-api',
-  'database': 'mongodb://localhost/insurance-api'
+  "secret": "insurance-api",
+  "database": "mongodb://localhost/insurance-api"
 }

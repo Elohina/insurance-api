@@ -17,12 +17,12 @@ var config = require("./config");
 
 var app = express();
 
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 mongoose.connect(config.database, {
   useMongoClient: true
 });
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use(logger("dev"));
 app.use(bodyParser.json());

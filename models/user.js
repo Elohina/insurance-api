@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var UserSchema = Schema(
@@ -12,4 +12,4 @@ var UserSchema = Schema(
 
 UserSchema.index({id: 1});
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);

@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var jwt = require("jsonwebtoken");
 var config = require("../config");
-var User = require('../models/user');
+var User = require("../models/user");
 
 router.post("/", function(req, res, next) {
   var email = req.body.email;

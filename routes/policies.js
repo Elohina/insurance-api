@@ -10,11 +10,11 @@ router.get("/:id/user", function(req, res, next) {
 
   var id = req.params.id;
 
-  Policy.find({ id: id }, (err, result) => {
+  Policy.findOne({ id: id }, (err, result) => {
     if (!result) {
       res.status(404).send({ error: "Policy not found" });
     }
-    User.find({ id: result.clientId }, (err, result) => {
+    User.findOne({ id: result.clientId }, (err, result) => {
       res.send(result);
     });
   });
