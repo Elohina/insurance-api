@@ -7,9 +7,6 @@
 var app = require("../app");
 var debug = require("debug")("insurance-api:server");
 var http = require("http");
-var MongoClient = require("mongodb").MongoClient;
-var request = require("request");
-var Mongonaut = require("mongonaut");
 
 /**
  * Get port from environment and store in Express.

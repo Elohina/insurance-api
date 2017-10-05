@@ -16,9 +16,11 @@ var config = require("./config");
 var app = express();
 
 var mongoose = require("mongoose");
+
 mongoose.connect(config.database, {
   useMongoClient: true
 });
+
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 

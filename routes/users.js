@@ -16,7 +16,7 @@ router.get("/:id", function(req, res, next) {
   var id = req.params.id;
 
   User.findOne({ id: id }, (err, result) => {
-    if (!result) res.status(404).send({ error: "User not found" });
+    if (!result) return res.status(404).send({ error: "User not found" });
     return res.send(result);
   });
 });
