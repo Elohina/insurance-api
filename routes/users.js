@@ -3,7 +3,11 @@ var router = express.Router();
 var User = require("../models/user");
 var Policy = require("../models/policy")
 
-/* GET user by id */
+
+/*
+* Get user by id
+* GET /users/:id
+*/
 router.get("/:id", function(req, res, next) {
   if (res.locals.role !== "user" && res.locals.role !== "admin") {
     return res.status(403).send({ error: "Forbidden" });
@@ -13,11 +17,14 @@ router.get("/:id", function(req, res, next) {
 
   User.findOne({ id: id }, (err, result) => {
     if (!result) res.status(404).send({ error: "User not found" });
-    res.send(result);
+    return res.send(result);
   });
 });
 
-/* GET user by name */
+/*
+* Get user by name
+* GET /users=?name=:user_name
+*/
 router.get("/", function(req, res, next) {
   if (res.locals.role !== "user" && res.locals.role !== "admin") {
     return res.status(403).send({ error: "Forbidden" });
@@ -32,11 +39,14 @@ router.get("/", function(req, res, next) {
 
   User.findOne({ name: name }, (err, result) => {
     if (!result) return res.status(404).send({ error: "User not found" });
-    res.send(result);
+    return res.send(result);
   });
 });
 
-/* GET user's policies by user's name */
+/*
+* Get user's policies by user's name
+* GET /users/:name/policies
+*/
 router.get("/:name/policies", function(req, res, next) {
   if (res.locals.role !== "admin") {
     return res.status(403).send({ error: "Forbidden" });
@@ -46,13 +56,13 @@ router.get("/:name/policies", function(req, res, next) {
 
   User.findOne({ name: name }, (err, result) => {
     if (!result) {
-      res.status(404).send({ error: "User not found" });
+      return res.status(404).send({ error: "User not found" });
     }
     Policy.find({ clientId: result.id }, (err, result) => {
       if (!result) {
-        res.status(404).send({ error: "User not found" });
+        return res.status(404).send({ error: "User has no policies" });
       }
-      res.send(result);
+      return res.send(result);
     });
   });
 });

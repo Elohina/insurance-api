@@ -4,13 +4,18 @@ var jwt = require("jsonwebtoken");
 var config = require("../config");
 var User = require("../models/user");
 
+/*
+* Verifies a user email and returns a token.
+* POST /session
+* body params :email
+*/
 router.post("/", function(req, res, next) {
   var email = req.body.email;
 
   if (!email)
     return res
       .status(400)
-      .send({ error: "Please provide an email in request body" });
+      .send({ error: "Please, provide an email in request body" });
 
   User.findOne({ email: email },  function(err, result) {
     if (!result) {

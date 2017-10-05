@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var PolicySchema = Schema(
   {
     id: {type: String, required: true, max: 16, index: true},
-    amountInsured: {type: String, required: true, max: 100},
+    amountInsured: {type: Number, required: true, max: 100},
     email: {type: String, required: true},
     inceptionDate: {type: Date, required: true},
     installmentPayment: Boolean,
